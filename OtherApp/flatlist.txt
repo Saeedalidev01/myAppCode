@@ -1,0 +1,135 @@
+import React from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { Button, StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import citiesData from './Data/citiesData.json';
+const Stack = createNativeStackNavigator();
+const App = () => {
+  const data = citiesData[citiesData]
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='DataScreen'>
+        <Stack.Screen name='DataScreen' component={DataScreen} />
+        <Stack.Screen  name='City Management' component={Home}options={{
+          title: "Cities",
+          headerStyle: {backgroundColor: '#fff'},
+          headerTitleAlign: 'center' // Centering the header text
+          
+          }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+    );
+};
+const Home = () => {
+  return (
+    <View style={{backgroundColor:"grey"}}>
+      {/* <Text style={{ fontSize: 31, }}>Home Screen</Text> */}
+      <FlatList
+        data={citiesData.slice(0, 1000)}
+        renderItem={({ item }) => <View style={styles.item}>
+          
+        {/* <Text style={styles.item} >{item.name} {item.id} </Text> */}
+
+        <Text style={styles.item} > Name:   {item.name}</Text>
+        <Text style={{fontSize:12,padding:0,margin:5, color:'#fff'}}> Country:   {item.country} </Text>
+        <Text style={{fontSize:12,padding:0,margin:6, color:'#fff'}}> ID:   {item.id} </Text>
+       
+        </View>}
+      />
+    </View>
+
+  )
+};
+
+const DataScreen = (props) => {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{ fontSize: 30, }}>DataScreen</Text>
+      <Button title='Go to Home Page' onPress={() => props.navigation.navigate("City Management")} ></Button>
+    </View>
+  )
+};
+
+const styles = StyleSheet.create({
+  item:{
+    fontSize: 20,
+    padding: 0,
+    color: '#fff',
+    backgroundColor: '#ED9A09',
+    borderRadius: 20,
+    margin: 5
+  }
+})
+export default App;
+
+new code
+import React from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { Button, StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import citiesData from './Data/citiesData.json';
+const Stack = createNativeStackNavigator();
+const colors = ['#ED9A09', '#0D6EFD', '#6610F2', '#20C997', '#FFC107', '#DC3545', '#6C757D'];
+
+const App = () => {
+  const data = citiesData[citiesData]
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='Cities'>
+        <Stack.Screen name='City Management' component={Home} options={{
+          title: "Cities",
+          headerStyle: { backgroundColor: '#fff' },
+          headerTitleAlign: 'center' // Centering the header text
+        }} />
+        <Stack.Screen name='DataScreen' component={DataScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const Home = (props) => {
+  return (
+    <View style={{ backgroundColor: "grey" }}>
+      <FlatList
+        data={citiesData.slice(0, 1000)}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity onPress={() => props.navigation.navigate("DataScreen")}>
+            <View style={[styles.item, { backgroundColor: colors[index % colors.length] }]}>
+              <Text style={styles.text}> Name:   {item.name}</Text>
+              <Text style={styles.text}> Country:   {item.country} </Text>
+              <Text style={styles.text}> ID:   {item.id} </Text>
+            </View>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item, index) => index.toString()}
+      />
+    </View>
+  )
+};
+
+const DataScreen = (props) => {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{ fontSize: 30 }}>DataScreen</Text>
+      <Button title='Go to Home Page' onPress={() => props.navigation.navigate("City Management")} ></Button>
+    </View>
+  )
+};
+
+const styles = StyleSheet.create({
+  item: {
+    fontSize: 20,
+    padding: 10,
+    margin: 5,
+    borderRadius: 20
+  },
+  text: {
+    fontSize: 12,
+    color: '#fff',
+    paddingVertical: 5
+  }
+});
+
+export default App;
