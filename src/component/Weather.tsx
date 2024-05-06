@@ -5,7 +5,7 @@ import { haze, rainy, snow, sunny } from '../assets';
 
 export default function WeatherContainer({ weatherData }:any) {
 
-  const [backgroundImage, setBackgroundImage] = useState(null);
+  const [backgroundImage, setBackgroundImage] = useState<any>(null);
   const {
     weather,
     base,
